@@ -41,6 +41,9 @@
       ref="suggestions"
       placement="bottom-start"
       :id="id">
+      <template slot="types" v-if="$slots.types">
+        <slot name="types"></slot>
+      </template>
       <li
         v-for="(item, index) in suggestions"
         :key="index"

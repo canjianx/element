@@ -119,6 +119,9 @@
           }
         } else {
           this.$el.removeEventListener('scroll', this.updatePopper);
+          if (this.appendToBody) {
+            document.body.removeChild(this.$el);
+          }
           if (!this.closed) this.$emit('close');
         }
       }

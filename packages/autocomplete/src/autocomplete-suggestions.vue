@@ -7,6 +7,7 @@
       :style="{ width: dropdownWidth }"
       role="region"
     >
+      <slot name='types'></slot>
       <el-scrollbar
         tag="ul"
         wrap-class="el-autocomplete-suggestion__wrap"

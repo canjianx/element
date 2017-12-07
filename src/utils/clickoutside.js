@@ -13,6 +13,12 @@ let seed = 0;
   nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
 });
 
+!Vue.prototype.$isServer && on(document, 'touchstart', e => (startClick = e));
+
+!Vue.prototype.$isServer && on(document, 'touchend', e => {
+  nodeList.forEach(node => node[ctx].documentHandler(e, startClick));
+});
+
 function createDocumentHandler(el, binding, vnode) {
   return function(mouseup = {}, mousedown = {}) {
     if (!vnode ||
@@ -44,7 +50,7 @@ function createDocumentHandler(el, binding, vnode) {
  * <div v-element-clickoutside="handleClose">
  * ```
  */
-export default {
+var clickoutside = {
   bind(el, binding, vnode) {
     nodeList.push(el);
     const id = seed++;
@@ -74,3 +80,5 @@ export default {
     delete el[ctx];
   }
 };
+Vue.directive('clickoutside', clickoutside);
+export default clickoutside;

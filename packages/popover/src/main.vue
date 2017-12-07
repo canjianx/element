@@ -86,11 +86,17 @@ export default {
     if (this.trigger === 'click') {
       on(reference, 'click', this.doToggle);
       on(document, 'click', this.handleDocumentClick);
+
+      on(reference, 'touchstart', this.doToggle);
+      on(document, 'touchend', this.handleDocumentClick);
     } else if (this.trigger === 'hover') {
       on(reference, 'mouseenter', this.handleMouseEnter);
       on(popper, 'mouseenter', this.handleMouseEnter);
       on(reference, 'mouseleave', this.handleMouseLeave);
       on(popper, 'mouseleave', this.handleMouseLeave);
+
+      on(reference, 'touchstart', this.doToggle);
+      on(document, 'touchend', this.handleDocumentClick);
     } else if (this.trigger === 'focus') {
       let found = false;
 

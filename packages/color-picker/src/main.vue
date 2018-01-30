@@ -7,7 +7,7 @@
     ]"
     v-clickoutside="hide">
     <div class="el-color-picker__mask" v-if="disabled"></div>
-    <div class="el-color-picker__trigger" @click="handleTrigger">
+    <div class="el-color-picker__trigger" @click.stop="handleTrigger">
       <span class="el-color-picker__color" :class="{ 'is-alpha': showAlpha }">
         <span class="el-color-picker__color-inner"
           :style="{

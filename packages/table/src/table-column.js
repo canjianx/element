@@ -71,7 +71,7 @@ const forced = {
     renderCell: function(h, { row, store }, proxy) {
       const expanded = store.states.expandRows.indexOf(row) > -1;
       return <div class={ 'el-table__expand-icon ' + (expanded ? 'el-table__expand-icon--expanded' : '') }
-                  on-click={ () => proxy.handleExpandClick(row) }>
+        on-click={ () => proxy.handleExpandClick(row) }>
         <i class='el-icon el-icon-arrow-right'></i>
       </div>;
     },
@@ -99,7 +99,7 @@ const getDefaultColumn = function(type, options) {
     column.minWidth = 80;
   }
 
-  column.realWidth = column.width || column.minWidth;
+  column.realWidth = column.width === undefined ? column.minWidth : column.width;
 
   return column;
 };
@@ -185,17 +185,24 @@ export default {
         parent = parent.$parent;
       }
       return parent;
+    },
+    columnOrTableParent() {
+      let parent = this.$parent;
+      while (parent && !parent.tableId && !parent.columnId) {
+        parent = parent.$parent;
+      }
+      return parent;
     }
   },
 
   created() {
     this.customRender = this.$options.render;
     this.$options.render = h => h('div', this.$slots.default);
-    this.columnId = (this.$parent.tableId || (this.$parent.columnId + '_')) + 'column_' + columnIdSeed++;
 
-    let parent = this.$parent;
+    let parent = this.columnOrTableParent;
     let owner = this.owner;
     this.isSubColumn = owner !== parent;
+    this.columnId = (parent.tableId || (parent.columnId + '_')) + 'column_' + columnIdSeed++;
 
     let type = this.type;
 
@@ -283,7 +290,7 @@ export default {
       }
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
-        ? <div class="cell el-tooltip" style={'width:' + (data.column.realWidth || data.column.width) + 'px'}>{ renderCell(h, data) }</div>
+        ? <div class="cell el-tooltip" style={{width: (data.column.realWidth || data.column.width) + 'px'}}>{ renderCell(h, data) }</div>
         : <div class="cell">{ renderCell(h, data) }</div>;
     };
   },
@@ -376,7 +383,7 @@ export default {
 
   mounted() {
     const owner = this.owner;
-    const parent = this.$parent;
+    const parent = this.columnOrTableParent;
     let columnIndex;
 
     if (!this.isSubColumn) {

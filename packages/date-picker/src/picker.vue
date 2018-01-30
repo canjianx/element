@@ -11,7 +11,6 @@
     v-clickoutside="handleClose"
     :placeholder="placeholder"
     @focus="handleFocus"
-    @blur="handleBlur"
     @keydown.native="handleKeydown"
     :value="displayValue"
     @input="value => userInput = value"
@@ -174,8 +173,8 @@ const TYPE_VALUE_RESOLVER_MAP = {
       let date = formatDate(trueDate, format);
 
       date = /WW/.test(date)
-            ? date.replace(/WW/, week < 10 ? '0' + week : week)
-            : date.replace(/W/, week);
+        ? date.replace(/WW/, week < 10 ? '0' + week : week)
+        : date.replace(/W/, week);
       return date;
     },
     parser(text) {
@@ -350,7 +349,7 @@ export default {
       pickerVisible: false,
       showClose: false,
       userInput: null,
-      valueOnOpen: null,  // value when picker opens, used to determine whether to emit change
+      valueOnOpen: null, // value when picker opens, used to determine whether to emit change
       unwatchPickerOptions: null
     };
   },
@@ -371,6 +370,7 @@ export default {
           this.userInput = null;
         }
         this.dispatch('ElFormItem', 'el.form.blur');
+        this.$emit('blur', this);
         this.blur();
       }
     },
@@ -599,9 +599,6 @@ export default {
 
     handleClose() {
       this.pickerVisible = false;
-      if (this.ranged) {
-        this.$emit('blur', this);
-      }
     },
 
     handleFocus() {
@@ -611,10 +608,6 @@ export default {
         this.pickerVisible = true;
       }
       this.$emit('focus', this);
-    },
-
-    handleBlur() {
-      this.$emit('blur', this);
     },
 
     handleKeydown(event) {
@@ -777,9 +770,12 @@ export default {
     },
 
     emitChange(val) {
-      this.$emit('change', val);
-      this.dispatch('ElFormItem', 'el.form.change', val);
-      this.valueOnOpen = val;
+      // determine user real change only
+      if (val !== this.valueOnOpen) {
+        this.$emit('change', val);
+        this.dispatch('ElFormItem', 'el.form.change', val);
+        this.valueOnOpen = val;
+      }
     },
 
     emitInput(val) {

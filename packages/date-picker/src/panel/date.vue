@@ -360,8 +360,8 @@
         document.body.removeEventListener('keydown', this.handleKeydown);
       },
 
-      handleKeydown(e) {
-        const keyCode = e.keyCode;
+      handleKeydown(event) {
+        const keyCode = event.keyCode;
         const list = [38, 40, 37, 39];
         if (this.visible && !this.timePickerVisible) {
           if (list.indexOf(keyCode) !== -1) {
@@ -369,7 +369,7 @@
             event.stopPropagation();
             event.preventDefault();
           }
-          if (keyCode === 13) {    // Enter
+          if (keyCode === 13) { // Enter
             this.$emit('pick', this.date, false);
           }
         }
@@ -431,8 +431,8 @@
       isValidValue(value) {
         return value && !isNaN(value) && (
           typeof this.disabledDate === 'function'
-          ? !this.disabledDate(value)
-          : true
+            ? !this.disabledDate(value)
+            : true
         );
       }
     },

@@ -128,7 +128,11 @@
       },
       handleClick() {
         if (this.triggerElm.disabled) return;
-        this.visible = !this.visible;
+        if (this.visible) {
+          this.hide();
+        } else {
+          this.show();
+        }
       },
       handleTriggerKeyDown(ev) {
         const keyCode = ev.keyCode;
@@ -194,7 +198,7 @@
         if (!this.splitButton) { // 自定义
           this.triggerElm.setAttribute('role', 'button');
           this.triggerElm.setAttribute('tabindex', '0');
-          this.triggerElm.setAttribute('class', this.triggerElm.getAttribute('class') + ' el-dropdown-selfdefine'); // 控制
+          this.triggerElm.setAttribute('class', (this.triggerElm.getAttribute('class') || '') + ' el-dropdown-selfdefine'); // 控制
         }
       },
       initEvent() {
@@ -247,13 +251,13 @@
       let triggerElm = !splitButton
         ? this.$slots.default
         : (<el-button-group>
-            <el-button type={type} size={dropdownSize} nativeOn-click={handleMainButtonClick}>
-              {this.$slots.default}
-            </el-button>
-            <el-button ref="trigger" type={type} size={dropdownSize} class="el-dropdown__caret-button">
-              <i class="el-dropdown__icon el-icon-arrow-down"></i>
-            </el-button>
-          </el-button-group>);
+          <el-button type={type} size={dropdownSize} nativeOn-click={handleMainButtonClick}>
+            {this.$slots.default}
+          </el-button>
+          <el-button ref="trigger" type={type} size={dropdownSize} class="el-dropdown__caret-button">
+            <i class="el-dropdown__icon el-icon-arrow-down"></i>
+          </el-button>
+        </el-button-group>);
 
       return (
         <div class="el-dropdown" v-clickoutside={hide}>

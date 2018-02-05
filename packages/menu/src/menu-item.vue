@@ -14,7 +14,7 @@
     tabindex="-1"
   >
     <el-tooltip
-      v-if="$parent === rootMenu && rootMenu.collapse"
+      v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse"
       effect="light"
       :open-delay="1000"
       placement="right">

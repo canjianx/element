@@ -13,9 +13,38 @@
     .buttons {
       margin-top: 20px;
     }
-    
+
     .filter-tree {
       margin-top: 20px;
+    }
+
+    .custom-tree-container {
+      display: flex;
+      margin: -24px;
+    }
+  
+    .block {
+      flex: 1;
+      padding: 8px 24px 24px;
+  
+      &:first-child {
+        border-right: solid 1px #eff2f6;
+      }
+  
+      > p {
+        text-align: center;
+        margin: 0;
+        line-height: 4;
+      }
+    }
+  
+    .custom-tree-node {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 8px;
     }
   }
 </style>
@@ -218,11 +247,11 @@
         this.$refs.tree.setCheckedNodes([
           {
             id: 5,
-            label: '二级 2-1'
+            label: 'Level two 2-1'
           },
           {
             id: 9,
-            label: '三级 1-1-1'
+            label: 'Level three 1-1-1'
           }
         ]);
       },
@@ -249,13 +278,11 @@
     
       renderContent(h, { node, data, store }) {
         return (
-          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+          <span class="custom-tree-node">
+            <span>{node.label}</span>
             <span>
-              <span>{node.label}</span>
-            </span>
-            <span>
-              <el-button style="font-size: 12px;" type="text" on-click={ () => this.append(data) }>Append</el-button>
-              <el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
             </span>
           </span>);
       },
@@ -272,6 +299,7 @@
         data2,
         data3,
         data4: JSON.parse(JSON.stringify(data2)),
+        data5: JSON.parse(JSON.stringify(data2)),
         regions,
         defaultProps,
         props,
@@ -685,63 +713,92 @@ Los nodos pueden estar desplegados o seleccionados por defecto.
 ### Contenido personalizado en los nodos
 El contenido de los nodos puede ser personalizado, así que puede añadir iconos y botones a su gusto.
 
-:::demo Utilice `render-content` para asignar una función de renderizado que devuelve el contenido del árbol de nodos. Mire la documentación de node para una introducción detallada a las funciondes de renderizado. Ten en cuenta que este ejemplo no puede ejecutarse en jsfiddle ya que no soporta la sintaxis JSX. En un proyecto real `render-content` funcionará si las dependencias relevantes están configuradas correctamente.
+:::demo There are two ways to customize template for tree nodes: `render-content` and scoped slot. Utilice `render-content` para asignar una función de renderizado que devuelve el contenido del árbol de nodos. Mire la documentación de node para una introducción detallada a las funciondes de renderizado. If you prefer scoped slot, you'll have access to `node` and `data` in the scope, standing for the TreeNode object and node data of the current node respectively. Ten en cuenta que este ejemplo no puede ejecutarse en jsfiddle ya que no soporta la sintaxis JSX. En un proyecto real `render-content` funcionará si las dependencias relevantes están configuradas correctamente.
 ```html
-<el-tree
-  :data="data4"
-  :props="defaultProps"
-  show-checkbox
-  node-key="id"
-  default-expand-all
-  :expand-on-click-node="false"
-  :render-content="renderContent">
-</el-tree>
+<div class="custom-tree-container">
+  <div class="block">
+    <p>Using render-content</p>
+    <el-tree
+      :data="data4"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :render-content="renderContent">
+    </el-tree>
+  </div>
+  <div class="block">
+    <p>Using scoped slot</p>
+    <el-tree
+      :data="data5"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => append(data)">
+            Append
+          </el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => remove(node, data)">
+            Delete
+          </el-button>
+        </span>
+      </span>
+    </el-tree>
+  </div>
+</div>
 
 <script>
   let id = 1000;
 
   export default {
     data() {
+      const data = [{
+        id: 1,
+        label: 'Level one 1',
+        children: [{
+          id: 4,
+          label: 'Level two 1-1',
+          children: [{
+            id: 9,
+            label: 'Level three 1-1-1'
+          }, {
+            id: 10,
+            label: 'Level three 1-1-2'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: 'Level one 2',
+        children: [{
+          id: 5,
+          label: 'Level two 2-1'
+        }, {
+          id: 6,
+          label: 'Level two 2-2'
+        }]
+      }, {
+        id: 3,
+        label: 'Level one 3',
+        children: [{
+          id: 7,
+          label: 'Level two 3-1'
+        }, {
+          id: 8,
+          label: 'Level two 3-2'
+        }]
+      }];
       return {
-        data4: [{
-          id: 1,
-          label: 'Level one 1',
-          children: [{
-            id: 4,
-            label: 'Level two 1-1',
-            children: [{
-              id: 9,
-              label: 'Level three 1-1-1'
-            }, {
-              id: 10,
-              label: 'Level three 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: 'Level one 2',
-          children: [{
-            id: 5,
-            label: 'Level two 2-1'
-          }, {
-            id: 6,
-            label: 'Level two 2-2'
-          }]
-        }, {
-          id: 3,
-          label: 'Level one 3',
-          children: [{
-            id: 7,
-            label: 'Level two 3-1'
-          }, {
-            id: 8,
-            label: 'Level two 3-2'
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
+        data4: JSON.parse(JSON.stringify(data)),
+        data5: JSON.parse(JSON.stringify(data))
       }
     },
 
@@ -763,19 +820,28 @@ El contenido de los nodos puede ser personalizado, así que puede añadir iconos
 
       renderContent(h, { node, data, store }) {
         return (
-          <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+          <span class="custom-tree-node">
+            <span>{node.label}</span>
             <span>
-              <span>{node.label}</span>
-            </span>
-            <span>
-              <el-button style="font-size: 12px;" type="text" on-click={ () => this.append(data) }>Append</el-button>
-              <el-button style="font-size: 12px;" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
             </span>
           </span>);
       }
     }
   };
 </script>
+
+<style>
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+</style>
 ```
 :::
 
@@ -956,8 +1022,8 @@ Solo puede ser expandido un nodo del mismo nivel a la vez.
 | Atributo | Descripción                              | Tipo                          | Valores aceptados | Por defecto |
 | -------- | ---------------------------------------- | ----------------------------- | ----------------- | ----------- |
 | label    | Especifica que clave del objecto nodo se utilizará como label | string, function(data, node)  | —                 | —           |
-| children | Especifica que objeto del nodo se utiliza como subárbol | string, function(data, node)  | —                 | —           |
-| isLeaf   | Especifica si el nodo es una hoja        | boolean, function(data, node) | —                 | —           |
+| children | Especifica que objeto del nodo se utiliza como subárbol | string | —                 | —           |
+| isLeaf   | Especifica si el nodo es una hoja, only works when lazy load is enabled        | boolean, function(data, node) | —                 | —           |
 
 ### Métodos
 `Tree` tiene los siguientes métodos, que devuelven el array de nodos seleccionados.
@@ -970,16 +1036,30 @@ Solo puede ser expandido un nodo del mismo nivel a la vez.
 | getCheckedKeys    | Si los nodos pueden ser seleccionados (`show-checkbox` es `true`), devuelve un array con las claves de los nodos seleccionados | (leafOnly) Acepta un booleano que por defecto es `false`. |
 | setCheckedKeys    | Establece algunos nodos como seleccionados, solo si `node-key` está asignado | (keys, leafOnly) Acepta dos parametros: 1. un array de claves 2. un booleano cuyo valor por defecto es `false`. Si el parámetro es `true`, solo devuelve los nodos seleccionados |
 | setChecked        | Establece si un nodo está seleccionado, solo funciona si `node-key` esta asignado | (key/data, checked, deep) Acepta tres parámetros: 1. la clave o dato del nodo a ser seleccionado 2. un booleano que indica si un nodo el nodo estará seleccionado 3. un booleanoque indica si se hará en profundidad |
+| getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | - |
+| getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
 | getCurrentKey     | devuelve la clave del nodo resaltado actualmente (null si no hay ninguno) | —                                        |
 | getCurrentNode    | devuelve el nodo resaltado (null si no hay ninguno) | —                                        |
 | setCurrentKey     | establece el nodo resaltado por la clave, solo funciona si `node-key` está asignado | (key) la clave del nodo a ser resaltado  |
 | setCurrentNode    | establece el nodo resaltado, solo funciona si `node-key` está asignado | (node) nodo a ser resaltado              |
+| getNode         | get node by data or key | (data) the node's data or key |
+| remove          | remove a node | (data) the node's data or node to be deleted |
+| append          | append a child node to a given node in the tree | (data, parentNode) 1. child node's data to be appended 2. parent node's data, key or node |
+| insertBefore    | insert a node before a given node in the tree | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
+| insertAfter     | insert a node after a given node in the tree   | (data, refNode) 1. node's data to be inserted 2. reference node's data, key or node |
 
 ### Eventos
 | Nombre del evento | Descripción                              | Parámetros                               |
 | ----------------- | ---------------------------------------- | ---------------------------------------- |
 | node-click        | se lanza cuando un nodo es pinchado      | tres parámetros: el objeto del nodo seleccionado, propiedad `node` de TreeNode y el TreeNode en si |
+| node-contextmenu     | triggers when a node is clicked by right button      | four parameters: event, node object corresponding to the node clicked, `node` property of TreeNode, TreeNode itself |
 | check-change      | se lanza cuando el estado de selección del nodo cambia | tres parámetros: objeto nodo que se corresponde con el que ha cambiado, booleano que dice si esta seleccionado, booleano que dice si el nodo tiene hijos seleccionados |
+| check   | triggers after clicking the checkbox of a node | two parameters: node object corresponding to the node that is checked / unchecked, tree checked status object which has four props: checkedNodes, checkedKeys, halfCheckedNodes, halfCheckedKeys |
 | current-change    | cambia cuando el nodo actual cambia      | dos parámetros: objeto nodo que se corresponde al nodo actual y propiedad `node` del TreeNode |
 | node-expand       | se lanza cuando el nodo actual se abre   | tres parámetros: el objeto del nodo abierto, propiedad `node` de TreeNode y el TreeNode en si |
 | node-collapse     | se lanza cuando el nodo actual se cierra | tres parámetros: el objeto del nodo cerrado, propiedad `node` de TreeNode y el TreeNode en si |
+
+### Scoped slot
+| name | Description |
+|------|--------|
+| — | Custom content for tree nodes. The scope parameter is { node, data } |

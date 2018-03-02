@@ -160,10 +160,9 @@
   import YearTable from '../basic/year-table';
   import MonthTable from '../basic/month-table';
   import DateTable from '../basic/date-table';
-
   export default {
     mixins: [Locale],
-
+    name: 'ElDatePanel',
     watch: {
       showTime(val) {
         /* istanbul ignore if */

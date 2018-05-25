@@ -38,8 +38,9 @@
     <el-autocomplete-suggestions
       visible-arrow
       :class="[popperClass ? popperClass : '']"
+      :popper-options="popperOptions"
       ref="suggestions"
-      placement="bottom-start"
+      :placement="placement"
       :id="id">
       <template slot="types" v-if="$slots.types">
         <slot name="types"></slot>
@@ -90,6 +91,7 @@
         default: 'value'
       },
       popperClass: String,
+      popperOptions: Object,
       placeholder: String,
       disabled: Boolean,
       name: String,
@@ -114,6 +116,10 @@
       debounce: {
         type: Number,
         default: 300
+      },
+      placement: {
+        type: String,
+        default: 'bottom-start'
       }
     },
     data() {

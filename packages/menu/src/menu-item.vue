@@ -14,7 +14,7 @@
     @mouseleave="onMouseLeave"
   >
     <el-tooltip
-      v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse"
+      v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse && $slots.title"
       effect="light"
       :open-delay="1000"
       placement="right">
@@ -101,7 +101,7 @@
         }
       }
     },
-    created() {
+    mounted() {
       this.parentMenu.addItem(this);
       this.rootMenu.addItem(this);
     },

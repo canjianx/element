@@ -234,6 +234,47 @@ describe('Table', () => {
         }, DELAY);
       }, DELAY);
     });
+
+    it('select-on-indeterminate', done => {
+      const vm = createVue({
+        template: `
+          <el-table :data="testData" @selection-change="change" :select-on-indeterminate="false" ref="table">
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+            <el-table-column prop="release" label="release" />
+            <el-table-column prop="director" label="director" />
+            <el-table-column prop="runtime" label="runtime" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData();
+        },
+
+        mounted() {
+          this.$refs.table.toggleRowSelection(this.testData[0]);
+        },
+
+        data() {
+          return { selected: [] };
+        },
+
+        methods: {
+          change(val) {
+            this.selected = val;
+          }
+        }
+      }, true);
+
+      setTimeout(_ => {
+        vm.$el.querySelector('.el-checkbox').click();
+        setTimeout(_ => {
+          expect(vm.selected).to.length(0);
+          destroyVM(vm);
+          done();
+        }, DELAY);
+      }, DELAY);
+    });
   });
 
   describe('filter', () => {
@@ -918,17 +959,16 @@ describe('Table', () => {
             </el-table>
           `,
 
-            created() {
-              this.testData = getTestData();
-            },
-
             data() {
-              return { expandCount: 0, expandRowKeys: [] };
+              return { expandCount: 0, expandRowKeys: [], testData: getTestData() };
             },
 
             methods: {
               handleExpand() {
                 this.expandCount++;
+              },
+              refreshData() {
+                this.testData = getTestData();
               }
             }
           }, true);
@@ -983,6 +1023,29 @@ describe('Table', () => {
             expect(vm.$el.querySelectorAll('.el-table__expanded-cell').length).to.equal(5);
             destroyVM(vm);
             done();
+          }, DELAY);
+        });
+
+        it('should unexpand after refresh data and click', function(done) {
+          const vm = createInstance();
+          setTimeout(_ => {
+            vm.$el.querySelector('td.el-table__expand-column .el-table__expand-icon').click();
+            setTimeout(_ => {
+              expect(vm.$el.querySelectorAll('.el-table__expanded-cell').length).to.equal(1);
+              expect(vm.expandCount).to.equal(1);
+              vm.refreshData();
+              setTimeout(_ => { // wait until refreshed
+                expect(vm.$el.querySelectorAll('.el-table__expanded-cell').length).to.equal(1);
+                vm.$el.querySelector('td.el-table__expand-column .el-table__expand-icon').click();
+                setTimeout(_ => {
+                  // should unexpand
+                  expect(vm.$el.querySelectorAll('.el-table__expanded-cell').length).to.equal(0);
+                  expect(vm.expandCount).to.equal(2);
+                  destroyVM(vm);
+                  done();
+                }, DELAY);
+              }, DELAY);
+            }, DELAY);
           }, DELAY);
         });
       });

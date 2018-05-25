@@ -5,6 +5,7 @@ lerna-debug.log
 npm-debug.log.*
 lerna-debug.log.*
 .idea
+.vscode
 examples/element-ui
 examples/pages/en-US
 examples/pages/zh-CN

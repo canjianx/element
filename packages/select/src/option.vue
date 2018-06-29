@@ -2,6 +2,8 @@
   <li
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
+    @touchstart.stop=''
+    @touchend.stop=''
     class="el-select-dropdown__item"
     v-show="visible"
     :class="{

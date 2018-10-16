@@ -133,11 +133,11 @@
     computed: {
       style() {
         let style = {};
+        if (this.width) {
+          style.width = this.width;
+        }
         if (!this.fullscreen) {
           style.marginTop = this.top;
-          if (this.width) {
-            style.width = this.width;
-          }
         }
         return style;
       }

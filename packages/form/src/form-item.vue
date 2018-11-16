@@ -226,8 +226,8 @@
         } else {
           prop.o[prop.k] = this.initialValue;
         }
-
-        this.broadcast('ElTimeSelect', 'fieldReset', this.initialValue);
+        // don't know why this.  But in dateRange it will get the wrong initialValue.
+        // this.broadcast('ElTimeSelect', 'fieldReset', this.initialValue);
       },
       getRules() {
         let formRules = this.form.rules;

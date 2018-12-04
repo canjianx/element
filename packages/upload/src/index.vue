@@ -42,6 +42,7 @@ export default {
     },
     data: Object,
     multiple: Boolean,
+    directory: Boolean,
     name: {
       type: String,
       default: 'file'

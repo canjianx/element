@@ -21,6 +21,7 @@ export default {
     headers: Object,
     withCredentials: Boolean,
     multiple: Boolean,
+    directory: Boolean,
     accept: String,
     onStart: Function,
     onProgress: Function,
@@ -180,6 +181,7 @@ export default {
       name,
       handleChange,
       multiple,
+      directory,
       accept,
       listType,
       uploadFiles,
@@ -203,7 +205,7 @@ export default {
             ? <upload-dragger disabled={disabled} on-file={uploadFiles}>{this.$slots.default}</upload-dragger>
             : this.$slots.default
         }
-        <input class="el-upload__input" type="file" ref="input" name={name} on-change={handleChange} multiple={multiple} accept={accept}></input>
+        <input class="el-upload__input" type="file" ref="input" name={name} on-change={handleChange} multiple={multiple} webkitdirectory={directory} mozdirectory={directory} msdirectory={directory} odirectory={directory} directory={directory} accept={accept}></input>
       </div>
     );
   }

@@ -273,6 +273,7 @@ export default {
         drag: this.drag,
         action: this.action,
         multiple: this.multiple,
+        directory: this.directory,
         'before-upload': this.beforeUpload,
         'with-credentials': this.withCredentials,
         headers: this.headers,

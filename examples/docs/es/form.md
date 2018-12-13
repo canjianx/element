@@ -176,7 +176,7 @@
     .el-form {
       width: 480px;
     }
-    
+
     .line {
       text-align: center;
     }
@@ -864,30 +864,30 @@ Todos los componentes de un formulario heredan su atributo `size`. De manera sim
 
 | Metodo        | Descripción                                                                                                                                                                                                                                                                                          | Parametros                                                       |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| validate      | el método para validar todo el formulario. Takes a callback as a param. After validation, the callback will be executed with two params: a boolean indicating if the validation has passed, and an object containing all fields that fail the validation. Devuelve una promesa si se omite el return | Function(callback: Function(boolean, object))                    |
-| validateField | el método para validar un determinado form item                                                                                                                                                                                                                                                      | Function(prop: string, callback: Function(errorMessage: string)) |
+| validate      | el método para validar todo el formulario. Recibe una llamada como parametro. Después de la validación, la llamada de retorno se ejecutará con dos parámetros: un booleano que indica si la validación ha pasado, y un objeto que contiene todos los campos que fallaron en la validación. Devuelve una promesa si se omite el return | Function(callback: Function(boolean, object))                    |
+| clearValidate | borra el mensaje de validación para determinados campos. El parámetro es un prop name o un array de props names de los items del formulario cuyos mensajes de validación se eliminarán. Si se omiten, se borrarán todos los mensajes de validación de los campos.                                                                                  | Function(prop: string, callback: Function(errorMessage: string)) |
 | resetFields   | restablece todos los campos y elimina el resultado de validación                                                                                                                                                                                                                                     | —                                                                |
-| clearValidate | limpieza de validación para determinados campos. El parámetro es un conjunto de nombres de propiedad de los elementos del formulario cuyos mensajes de validación se eliminarán. Si se omiten, se borrarán todos los mensajes de validación de los campos.                                           | Function(props: array)                                           |
+
 
 ### Form Events
 
 | Nombre   | Descripción                                          | Parametros                                                   |
 | -------- | ---------------------------------------------------- | ------------------------------------------------------------ |
-| validate | se dispara después de validar un item del formulario | la propiedad (`prop name`) nombre del item del form que se esta validando, si la validacion paso o no, mensaje de error si existe. |
+| validate | se dispara después de validar un item del formulario | la propiedad (`prop name`) nombre del item del form que se esta validando, si la validacion paso o no, y el mensaje de error si existe. |
 
 ### Form-Item Atributos
 
-| Atributo       | Descripción                                                                                                         | Tipo    | Valores aceptados                   | Por defecto |
-| -------------- | ------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------- | ----------- |
-| prop           | un key de `model`. En el uso del método validate and resetFields, el atributo es obligatorio.                       | string  | keys of model that passed to `form` |             |
-| label          | etiqueta                                                                                                            | string  | —                                   | —           |
-| label-width    | ancho de la etiqueta, e.g. '50px'                                                                                   | string  | —                                   | —           |
-| required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite.                       | boolean | —                                   | false       |
-| rules          | reglas de validacion del form                                                                                       | object  | —                                   | —           |
-| error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                   | —           |
-| show-message   | si mostrar o no el mensaje de error                                                                                 | boolean | —                                   | true        |
-| inline-message | mensaje de validación estilo inline                                                                                 | boolean | —                                   | false       |
-| size           | Tamaño de los componentes en este form item                                                                         | string  | medium / small / mini               | -           |
+| Atributo       | Descripción                                                  | Tipo    | Valores aceptados                           | Por defecto |
+| -------------- | ------------------------------------------------------------ | ------- | ------------------------------------------- | ----------- |
+| prop           | un clave del modelo. En el uso del método validate and resetFields, el atributo es obligatorio. | string  | Clave del modelo que se ha pasado a  `form` |             |
+| label          | etiqueta                                                     | string  | —                                           | —           |
+| label-width    | ancho de la etiqueta, e.g. '50px'                            | string  | —                                           | —           |
+| required       | si el campo es obligatorio o no, estará determinado por las reglas de validación si se omite. | boolean | —                                           | false       |
+| rules          | reglas de validacion del form                                | object  | —                                           | —           |
+| error          | mensaje de error de campo, establezca su valor y el campo validará el error y mostrará este mensaje inmediatamente. | string  | —                                           | —           |
+| show-message   | si mostrar o no el mensaje de error                          | boolean | —                                           | true        |
+| inline-message | mensaje de validación estilo inline                          | boolean | —                                           | false       |
+| size           | Tamaño de los componentes en este form item                  | string  | medium / small / mini                       | -           |
 
 ### Form-Item Slot
 

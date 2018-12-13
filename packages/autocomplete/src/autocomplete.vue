@@ -13,6 +13,7 @@
       @input="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
+      @clear="handleClear"
       @keydown.up.native.prevent="highlight(highlightedIndex - 1)"
       @keydown.down.native.prevent="highlight(highlightedIndex + 1)"
       @keydown.enter.native="handleKeyEnter"
@@ -92,6 +93,10 @@
       popperClass: String,
       popperOptions: Object,
       placeholder: String,
+      clearable: {
+        type: Boolean,
+        default: false
+      },
       disabled: Boolean,
       name: String,
       size: String,
@@ -195,6 +200,10 @@
       },
       handleBlur(event) {
         this.$emit('blur', event);
+      },
+      handleClear() {
+        this.activated = false;
+        this.$emit('clear');
       },
       close(e) {
         this.activated = false;

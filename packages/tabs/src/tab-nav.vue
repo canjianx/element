@@ -20,11 +20,16 @@
       panes: Array,
       currentName: String,
       editable: Boolean,
+      properties: Boolean,
       onTabClick: {
         type: Function,
         default: noop
       },
       onTabRemove: {
+        type: Function,
+        default: noop
+      },
+      onTabProps: {
         type: Function,
         default: noop
       },
@@ -187,6 +192,7 @@
         type,
         panes,
         editable,
+        properties,
         stretch,
         onTabClick,
         onTabRemove,
@@ -213,6 +219,7 @@
         const btnClose = closable
           ? <span class="el-icon-close" on-click={(ev) => { onTabRemove(pane, ev); }}></span>
           : null;
+        const btnProps = properties ? <span class="icon-edit" on-click={(ev) => { onTabProps(pane, ev); }}></span>: null;
 
         const tabLabelContent = pane.$slots.label || pane.label;
         const tabindex = pane.active ? 0 : -1;
@@ -241,6 +248,7 @@
           >
             {tabLabelContent}
             {btnClose}
+            {btnProps}
           </div>
         );
       });

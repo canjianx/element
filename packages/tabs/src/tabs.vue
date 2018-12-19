@@ -15,6 +15,7 @@
       addable: Boolean,
       value: {},
       editable: Boolean,
+      properties: Boolean,
       tabPosition: {
         type: String,
         default: 'top'
@@ -79,6 +80,11 @@
         this.$emit('edit', pane.name, 'remove');
         this.$emit('tab-remove', pane.name);
       },
+      handleTabProp(pane, ev) {
+        if (pane.disabled) return;
+        ev.stopPropagation();
+        this.$emit('paneProps', pane.name, 'prop', pane)
+      },
       handleTabAdd() {
         this.$emit('edit', null, 'add');
         this.$emit('tab-add');
@@ -110,6 +116,7 @@
         type,
         handleTabClick,
         handleTabRemove,
+        handleTabProp,
         handleTabAdd,
         currentName,
         panes,
@@ -137,6 +144,7 @@
           currentName,
           onTabClick: handleTabClick,
           onTabRemove: handleTabRemove,
+          onTabProps: handleTabProp,
           editable,
           type,
           panes,

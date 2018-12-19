@@ -247,8 +247,8 @@
             on-keydown={(ev) => { if (closable && (ev.keyCode === 46 || ev.keyCode === 8)) { onTabRemove(pane, ev);} }}
           >
             {tabLabelContent}
-            {btnClose}
             {btnProps}
+            {btnClose}
           </div>
         );
       });

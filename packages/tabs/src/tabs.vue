@@ -146,6 +146,7 @@
           onTabRemove: handleTabRemove,
           onTabProps: handleTabProp,
           editable,
+          properties,
           type,
           panes,
           stretch

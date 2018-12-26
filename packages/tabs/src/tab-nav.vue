@@ -196,6 +196,7 @@
         stretch,
         onTabClick,
         onTabRemove,
+        onTabProps,
         navStyle,
         scrollable,
         scrollNext,
@@ -219,7 +220,7 @@
         const btnClose = closable
           ? <span class="el-icon-close" on-click={(ev) => { onTabRemove(pane, ev); }}></span>
           : null;
-        const btnProps = properties ? <span class="icon-edit" on-click={(ev) => { onTabProps(pane, ev); }}></span>: null;
+        const btnProps = properties ? <span class="icon-edit" on-click={(ev) => { ev.stopPropagation(); onTabProps(pane, ev); }}></span>: null;
 
         const tabLabelContent = pane.$slots.label || pane.label;
         const tabindex = pane.active ? 0 : -1;

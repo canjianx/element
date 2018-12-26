@@ -83,7 +83,7 @@
       handleTabProp(pane, ev) {
         if (pane.disabled) return;
         ev.stopPropagation();
-        this.$emit('paneProps', pane.name, 'prop', pane)
+        this.$emit('paneProps', pane.name, 'prop', pane, ev)
       },
       handleTabAdd() {
         this.$emit('edit', null, 'add');
@@ -121,6 +121,7 @@
         currentName,
         panes,
         editable,
+        properties,
         addable,
         tabPosition,
         stretch

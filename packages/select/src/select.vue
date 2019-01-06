@@ -147,7 +147,7 @@
   import { t } from 'element-ui/src/locale';
   import scrollIntoView from 'element-ui/src/utils/scroll-into-view';
   import { getValueByPath } from 'element-ui/src/utils/util';
-  import { valueEquals, isIE, isEdge } from 'element-ui/src/utils/util';
+  import { valueEquals, isIE, isEdge, isIPad } from 'element-ui/src/utils/util';
   import NavigationMixin from './navigation-mixin';
   import { isKorean } from 'element-ui/src/utils/shared';
 
@@ -180,6 +180,9 @@
       },
 
       readonly() {
+        if (isIPad()) {
+          return false
+        }
         return !this.filterable || this.multiple || (!isIE() && !isEdge() && !this.visible);
       },
 

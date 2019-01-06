@@ -120,3 +120,8 @@ export const isIE = function() {
 export const isEdge = function() {
   return !Vue.prototype.$isServer && navigator.userAgent.indexOf('Edge') > -1;
 };
+
+export const isIPad = function() {
+  var ua = navigator.userAgent.toLowerCase();
+  return !Vue.prototype.$isServer && ua.indexOf('ipad') > 0 && ua.indexOf('mobile') > 0;
+};

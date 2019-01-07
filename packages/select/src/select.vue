@@ -82,7 +82,9 @@
       :class="{ 'is-focus': visible }"
       @focus="handleFocus"
       @blur="handleBlur"
+      @touchstart.native='touchstart'
       @keyup.native="debouncedOnInputChange"
+      @input.native='ipadInput'
       @keydown.native.down.stop.prevent="navigateOptions('next')"
       @keydown.native.up.stop.prevent="navigateOptions('prev')"
       @keydown.native.enter.prevent="selectOption"
@@ -181,7 +183,7 @@
 
       readonly() {
         if (isIPad()) {
-          return false
+          // return false
         }
         return !this.filterable || this.multiple || (!isIE() && !isEdge() && !this.visible);
       },
@@ -446,6 +448,12 @@
           this.isOnComposition = !isKorean(lastCharacter);
         }
       },
+      ipadInput(val) {
+        if (isIPad()) {
+          if (val.target.value != '')
+          this.handleQueryChange(val.target.value)
+        }
+      },
       handleQueryChange(val) {
         if (this.previousQuery === val || this.isOnComposition) return;
         if (
@@ -571,7 +579,9 @@
         this.visible = false;
         this.$refs.reference.blur();
       },
-
+      touchstart() {
+        this.visible = true;
+      },
       handleBlur(event) {
         setTimeout(() => {
           if (this.isSilentBlur) {
@@ -839,7 +849,6 @@
       this.debouncedOnInputChange = debounce(this.debounce, () => {
         this.onInputChange();
       });
-
       this.debouncedQueryChange = debounce(this.debounce, (e) => {
         this.handleQueryChange(e.target.value);
       });

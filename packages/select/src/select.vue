@@ -581,8 +581,10 @@
         this.$refs.reference.blur();
       },
       touchstart() {
-        this.visible = true;
-        this.menuVisibleOnFocus = true
+        if (!this.disabled) {
+          this.visible = true
+          this.menuVisibleOnFocus = true
+        }
       },
       handleBlur(event) {
         setTimeout(() => {

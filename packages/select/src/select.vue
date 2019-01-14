@@ -82,6 +82,7 @@
       :class="{ 'is-focus': visible }"
       @focus="handleFocus"
       @blur="handleBlur"
+      @touchend.native='touchend'
       @touchstart.native='touchstart'
       @keyup.native="debouncedOnInputChange"
       @input.native='ipadInput'
@@ -581,6 +582,7 @@
       },
       touchstart() {
         this.visible = true;
+        this.menuVisibleOnFocus = true
       },
       handleBlur(event) {
         setTimeout(() => {

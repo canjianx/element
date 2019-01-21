@@ -120,7 +120,12 @@
       },
 
       isValidValue(date) {
-        return this.items.filter(item => !item.disabled).map(item => item.value).indexOf(date) !== -1;
+        var current = parseTime(date)
+        if (!isNaN(current.hours) && !isNaN(current.minutes) && current.minutes < 60 && current.hours < 24) {
+          var inValid = compareTime(date, this.minTime || '-1:-1') <= 0 || compareTime(date, this.maxTime || '100:100') >= 0
+          return !inValid
+        }
+        return false //this.items.filter(item => !item.disabled).map(item => item.value).indexOf(date) !== -1;
       },
 
       handleKeydown(event) {
@@ -144,6 +149,7 @@
         value: '',
         defaultValue: '',
         visible: false,
+        customTimes: [],
         minTime: '',
         maxTime: '',
         width: 0

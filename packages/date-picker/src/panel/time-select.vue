@@ -11,7 +11,7 @@
           v-for="item in items"
           :class="{ selected: value === item.value, disabled: item.disabled, default: item.value === defaultValue }"
           :disabled="item.disabled"
-          @click="handleClick(item)">{{ item.value }}</div>
+          @click="handleClick(item)">{{ item.showValue }}</div>
       </el-scrollbar>
     </div>
   </transition>
@@ -71,7 +71,23 @@
 
     return formatTime(next);
   };
+  const amPm = function(hour, amPmMode) {
+    let shouldShowAmPm = amPmMode.toLowerCase() === 'a';
+    if (!shouldShowAmPm) return '';
+    let isCapital = amPmMode === 'A';
+    let content = (hour < 12) ? ' am' : ' pm';
+    if (isCapital) content = content.toUpperCase();
+    return content;
+  }
+  const formatTimeWithFormat = function(time, format) {
+    var timeValue = parseTime(time)
+    var amPmMode
+    if ((format || '').indexOf('A') !== -1) amPmMode = 'A';
+    if ((format || '').indexOf('a') !== -1) amPmMode = 'a';
+    var hour = timeValue.hours
 
+    return ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + "" + amPm(hour, amPmMode)
+  };
   export default {
     components: { ElScrollbar },
 
@@ -152,6 +168,7 @@
         customTimes: [],
         minTime: '',
         maxTime: '',
+        format: '',
         width: 0
       };
     },
@@ -169,6 +186,7 @@
           while (compareTime(current, end) <= 0) {
             result.push({
               value: current,
+              showValue: formatTimeWithFormat(current, this.format),
               disabled: compareTime(current, this.minTime || '-1:-1') <= 0 ||
                 compareTime(current, this.maxTime || '100:100') >= 0
             });

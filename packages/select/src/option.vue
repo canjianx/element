@@ -12,7 +12,7 @@
       'hover': hover
     }">
     <slot>
-      <span>{{ currentLabel }}</span>
+      <span :title="currentLabel">{{ currentLabel }}</span>
     </slot>
   </li>
 </template>

@@ -23,7 +23,7 @@
         v-if="file.status !== 'uploading' && ['picture-card', 'picture'].indexOf(listType) > -1"
         :src="file.url" alt=""
       >
-      <a class="el-upload-list__item-name" @click="handleClick(file)">
+      <a class="el-upload-list__item-name" @click="handleClick(file)" :title='file.name'>
         <i class="el-icon-document"></i>{{file.name}}
       </a>
       <label class="el-upload-list__item-status-label">

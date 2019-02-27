@@ -18,6 +18,14 @@
           </slot>
           <button
             type="button"
+            class="el-dialog__headerbtn1"
+            aria-label="Helper"
+            v-if="showHelper"
+            @click="handleHelper">
+            <i class="icon-support"></i>
+          </button>
+          <button
+            type="button"
             class="el-dialog__headerbtn"
             aria-label="Close"
             v-if="showClose"
@@ -84,7 +92,11 @@
         type: Boolean,
         default: true
       },
-
+      showHelper: {
+        type: Boolean,
+        default: true
+      },
+      helperUrl: String,
       width: String,
 
       fullscreen: Boolean,
@@ -163,6 +175,13 @@
           this.beforeClose(this.hide);
         } else {
           this.hide();
+        }
+      },
+      handleHelper() {
+        if (this.helperUrl) {
+          window.open(this.helperUrl)
+        } else if (window.helperUrl) {
+          window.open(window.helperUrl)
         }
       },
       hide(cancel) {

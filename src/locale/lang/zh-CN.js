@@ -87,6 +87,9 @@ export default {
       preview: '查看图片',
       continue: '继续上传'
     },
+    dialog: {
+      help: '帮助'
+    },
     table: {
       emptyText: '暂无数据',
       confirmFilter: '筛选',

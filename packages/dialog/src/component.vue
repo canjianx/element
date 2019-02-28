@@ -22,7 +22,7 @@
             aria-label="Helper"
             v-if="showHelper"
             @click="handleHelper">
-            <i class="icon-support"></i>
+            <i class="icon-support" :title='t("el.dialog.help")'></i>
           </button>
           <button
             type="button"
@@ -46,11 +46,11 @@
   import Popup from 'element-ui/src/utils/popup';
   import Migrating from 'element-ui/src/mixins/migrating';
   import emitter from 'element-ui/src/mixins/emitter';
-
+  import Locale from 'element-ui/src/mixins/locale';
   export default {
     name: 'ElDialog',
 
-    mixins: [Popup, emitter, Migrating],
+    mixins: [Popup, emitter, Migrating, Locale],
 
     props: {
       title: {

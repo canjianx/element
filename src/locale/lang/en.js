@@ -87,6 +87,9 @@ export default {
       preview: 'Preview',
       continue: 'Continue'
     },
+    dialog: {
+      help: 'Help'
+    },
     table: {
       emptyText: 'No Data',
       confirmFilter: 'Confirm',

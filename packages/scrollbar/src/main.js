@@ -21,7 +21,8 @@ export default {
     tag: {
       type: String,
       default: 'div'
-    }
+    },
+    id: String
   },
 
   data() {
@@ -102,6 +103,8 @@ export default {
 
       this.moveY = ((wrap.scrollTop * 100) / wrap.clientHeight);
       this.moveX = ((wrap.scrollLeft * 100) / wrap.clientWidth);
+
+      this.$emit('scrollbar_scroll', wrap, this.id);
     },
 
     update() {

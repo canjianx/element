@@ -86,7 +86,7 @@
 <script>
 import Vue from 'vue';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
-import { formatDate, parseDate, isDateObject, getWeekNumber } from './util';
+import { formatDate, formatTimeWithFormat, parseDate, isDateObject, getWeekNumber } from './util';
 import Popper from 'element-ui/src/utils/vue-popper';
 import Emitter from 'element-ui/src/mixins/emitter';
 import ElInput from 'element-ui/packages/input';
@@ -111,6 +111,7 @@ const DEFAULT_FORMATS = {
   month: 'yyyy-MM',
   datetime: 'yyyy-MM-dd HH:mm:ss',
   time: 'HH:mm:ss',
+  "time-select": 'HH:mm:ss',
   week: 'yyyywWW',
   timerange: 'HH:mm:ss',
   daterange: 'yyyy-MM-dd',
@@ -134,6 +135,9 @@ const DATE_FORMATTER = function(value, format) {
   if (format === 'timestamp') return value.getTime();
   return formatDate(value, format);
 };
+const TIME_FORMATTER = function(value, format) {
+  return formatTimeWithFormat(value, format)
+}
 const DATE_PARSER = function(text, format) {
   if (format === 'timestamp') return new Date(Number(text));
   return parseDate(text, format);
@@ -223,6 +227,10 @@ const TYPE_VALUE_RESOLVER_MAP = {
   },
   time: {
     formatter: DATE_FORMATTER,
+    parser: DATE_PARSER
+  },
+  "time-select": {
+    formatter: TIME_FORMATTER,
     parser: DATE_PARSER
   },
   month: {

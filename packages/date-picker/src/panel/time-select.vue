@@ -82,11 +82,16 @@
   const formatTimeWithFormat = function(time, format) {
     var timeValue = parseTime(time)
     var amPmMode
-    if ((format || '').indexOf('A') !== -1) amPmMode = 'A';
-    if ((format || '').indexOf('a') !== -1) amPmMode = 'a';
+    if ((format || '').indexOf('A') !== -1) {
+      amPmMode = 'A';
+    } else if ((format || '').indexOf('a') !== -1) {
+      amPmMode = 'a';
+    } else {
+      amPmMode = '';
+    }
     var hour = timeValue.hours
-
-    return ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + "" + amPm(hour, amPmMode)
+    var minutes = timeValue.minutes
+    return ('0' + (amPmMode ? (hour % 12 || 12) : hour )).slice(-2) + ":" + ('0' + minutes).slice(-2) + "" + amPm(hour, amPmMode)
   };
   export default {
     components: { ElScrollbar },

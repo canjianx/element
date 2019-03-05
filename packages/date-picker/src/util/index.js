@@ -42,6 +42,43 @@ export const formatDate = function(date, format) {
   return dateUtil.format(date, format || 'yyyy-MM-dd', getI18nSettings());
 };
 
+const parseTime = function(time) {
+  const values = (time || '').split(':');
+  if (values.length >= 2) {
+    const hours = parseInt(values[0], 10);
+    const minutes = parseInt(values[1], 10);
+
+    return {
+      hours,
+      minutes
+    };
+  }
+  /* istanbul ignore next */
+  return null;
+};
+const amPm = function(hour, amPmMode) {
+  let shouldShowAmPm = amPmMode.toLowerCase() === 'a';
+  if (!shouldShowAmPm) return '';
+  let isCapital = amPmMode === 'A';
+  let content = (hour < 12) ? ' am' : ' pm';
+  if (isCapital) content = content.toUpperCase();
+  return content;
+};
+export const formatTimeWithFormat = function(time, format) {
+  var timeValue = parseTime(time);
+  var amPmMode;
+  if ((format || '').indexOf('A') !== -1) {
+    amPmMode = 'A';
+  } else if ((format || '').indexOf('a') !== -1) {
+    amPmMode = 'a';
+  } else {
+    amPmMode = '';
+  }
+  var hour = timeValue.hours;
+  var minutes = timeValue.minutes;
+  return ('0' + (amPmMode ? (hour % 12 || 12) : hour)).slice(-2) + ':' + ('0' + minutes).slice(-2) + '' + amPm(hour, amPmMode);
+};
+
 export const parseDate = function(string, format) {
   return dateUtil.parse(string, format || 'yyyy-MM-dd', getI18nSettings());
 };

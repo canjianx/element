@@ -23,7 +23,7 @@ export default {
   },
 
   methods: {
-    navigateOptions(direction) {
+    navigateOptions(direction, e) {
       if (!this.visible) {
         this.visible = true;
         return;
@@ -39,6 +39,21 @@ export default {
           this.hoverIndex--;
           if (this.hoverIndex < 0) {
             this.hoverIndex = this.options.length - 1;
+          }
+        } else if (direction === 'bychar') {
+          var curKey = String.fromCharCode(e.keyCode);
+          var startIndex = this.hoverIndex + 1;
+          var optLen = this.options.length;
+          if (startIndex === optLen) {
+            startIndex = 0;
+          }
+          for (var j = 0; j < optLen; ++j) {
+            var curIndex = (startIndex + j) % optLen;
+            var firstLetter = this.options[curIndex].currentLabel[0];
+            if (firstLetter.toUpperCase() === curKey.toUpperCase()) {
+              this.hoverIndex = curIndex;
+              break;
+            }
           }
         }
         const option = this.options[this.hoverIndex];

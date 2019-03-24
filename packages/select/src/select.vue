@@ -88,7 +88,6 @@
       @input.native='ipadInput'
       @keydown.native.down.stop.prevent="navigateOptions('next')"
       @keydown.native.up.stop.prevent="navigateOptions('prev')"
-      @keydown.native.prevent="navigateOptions('bychar', $event)"
       @keydown.native.enter.prevent="selectOption"
       @keydown.native.esc.stop.prevent="visible = false"
       @keydown.native.tab="visible = false"
